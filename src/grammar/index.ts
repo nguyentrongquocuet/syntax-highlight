@@ -19,6 +19,7 @@ export const EXAMPLELanguage = LRLanguage.define({
         String: t.string,
         LineComment: t.lineComment,
         BinaryCompare: t.operatorKeyword,
+        Given: t.operatorKeyword,
       }),
     ]
   }),

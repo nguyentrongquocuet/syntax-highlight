@@ -3,7 +3,10 @@
 @skip { space | NewLine }
 
 expression {
-  ConDec { ConDec1 | ConDec2 }
+  ConDec { ConDec1 | ConDec2 } |
+  StartDec |
+  EndDec |
+  Given
 }
 
 @tokens {
