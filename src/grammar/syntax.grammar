@@ -1,37 +1,43 @@
 @top Program { expression* }
 
-@skip { space | NewLine }
-
 expression {
   ConDec { ConDec1 | ConDec2 } |
-  StartDec |
-  EndDec |
-  Given
+  GivenExpression |
+  DecContent |
+  BinaryCompare
 }
 
+@precedence { binary @left }
+
+commaSep<content> { "" | content ("," content)* }
+
+newLineStep<content> { "" | content (NewLine content)* }
+
+GivenExpression { Given space commaSep<Identifier space*>}
+
+Given { @specialize<Identifier, "given"> }
+
+StartDec { @specialize<Identifier, "when"> }
+
+EndDec { @specialize<Identifier, "end"> }
+
+BinaryCompare { @specialize<Identifier, "and" | "or" | "not" | "is">}
+
+DecContent { Word space BinaryCompare space Word }
+
+ConDec1 { StartDec NewLine+ EndDec }
+
+ConDec2 { StartDec  newLineStep<DecContent>  EndDec }
+
 @tokens {
-  Identifier { $[a-zA-Z_\-0-9]+ }
+  Word { $[a-zA-Z_\-0-9]+ }
+
+  Identifier { Word  }
 
   space { $[ \n\r\t] }
 
-  Given { "given" }
-
-  StartDec { "when" }
-
-  BinaryCompare { "and" | "or" | "not" | "is"}
-
-  EndDec { "end" }
-
   NewLine { "\n" }
 
-  CompareExpression { space* Identifier space* BinaryCompare space* Identifier space*}
-
-  DecContent { NewLine | CompareExpression }
-
-  ConDec1 { StartDec space* NewLine+ EndDec }
-
-  ConDec2 { StartDec space+ Identifier space* DecContent+ EndDec }
-
-  @precedence {StartDec, EndDec, BinaryCompare, Identifier, ConDec}
   @precedence { NewLine, space }
+  @precedence { Identifier, Word }
 }

@@ -6,12 +6,10 @@ import { FlexruleLang } from './scripts'
 const editor = new EditorView({
   state: EditorState.create({
     extensions: [basicSetup, keymap.of([indentWithTab]), FlexruleLang],
-    doc: `(defun check-login (name password) ; absolutely secure
-  (if (equal name "admin")
-    (equal password "12345")
-    #t)) 
-when r1
-end
+    doc: `given quoc
+    when r1
+      quoc is now 20
+    end
     `
   }),
   parent: document.body,

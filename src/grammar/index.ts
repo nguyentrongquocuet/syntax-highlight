@@ -1,5 +1,5 @@
 import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, } from "@codemirror/language"
-import {styleTags, tags as t} from "@codemirror/highlight"
+import {styleTags, tags as t, classHighlightStyle} from "@codemirror/highlight"
 import {parser} from "./syntax.grammar"
 
 export const EXAMPLELanguage = LRLanguage.define({
@@ -8,18 +8,25 @@ export const EXAMPLELanguage = LRLanguage.define({
       foldNodeProp.add({
         ConDec(node, state) {
           return {
-            from: node.from+1,
-            to: node.to-1,
+            from: node.from + 4,
+            to: node.to,
           }
         },
+        GivenExpression(node){
+          return null
+        }
       }),
       styleTags({
-        Identifier: t.variableName,
-        Boolean: t.bool,
-        String: t.string,
+        Identifier: t.integer,
         LineComment: t.lineComment,
-        BinaryCompare: t.operatorKeyword,
-        Given: t.operatorKeyword,
+        BinaryCompare: t.keyword,
+        'ConDec1/BinaryCompare': t.keyword,
+        'ConDec2/BinaryCompare': t.keyword,
+        'ConDec1/StartDec': t.keyword,
+        'ConDec1/EndDec': t.keyword,
+        'ConDec2/StartDec': t.keyword,
+        'ConDec2/EndDec': t.keyword,
+        'GivenExpression/Given': t.keyword,
       }),
     ]
   }),
