@@ -1,0 +1,34 @@
+@top Program { expression* }
+
+@skip { space | NewLine }
+
+expression {
+  ConDec { ConDec1 | ConDec2 }
+}
+
+@tokens {
+  Identifier { $[a-zA-Z_\-0-9]+ }
+
+  space { $[ \n\r\t] }
+
+  Given { "given" }
+
+  StartDec { "when" }
+
+  BinaryCompare { "and" | "or" | "not" | "is"}
+
+  EndDec { "end" }
+
+  NewLine { "\n" }
+
+  CompareExpression { space* Identifier space* BinaryCompare space* Identifier space*}
+
+  DecContent { NewLine | CompareExpression }
+
+  ConDec1 { StartDec space* NewLine+ EndDec }
+
+  ConDec2 { StartDec space+ Identifier space* DecContent+ EndDec }
+
+  @precedence {StartDec, EndDec, BinaryCompare, Identifier, ConDec}
+  @precedence { NewLine, space }
+}

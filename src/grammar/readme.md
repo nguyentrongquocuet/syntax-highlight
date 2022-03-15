@@ -1,0 +1,1 @@
+# Language syntax definition from [Codemirror](https://codemirror.net/6/examples/lang-package/) and [this guild](https://lezer.codemirror.net/docs/guide/#writing-a-grammar)
